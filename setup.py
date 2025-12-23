@@ -165,7 +165,6 @@ setup(
         "Development Status :: 3 - Alpha",
         "Intended Audience :: Science/Research",
         "Intended Audience :: Developers",
-        "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
         "Programming Language :: Python",
         "Topic :: Software Development",
         "Topic :: Scientific/Engineering",

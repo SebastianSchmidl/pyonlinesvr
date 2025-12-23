@@ -22,7 +22,7 @@ import numpy as np
 import scipy as sp
 from sklearn.base import BaseEstimator, RegressorMixin
 from sklearn.utils import check_X_y
-from sklearn.utils.validation import check_array, column_or_1d, check_is_fitted
+from sklearn.utils.validation import validate_data, column_or_1d, check_is_fitted
 
 from pyonlinesvr.lib.compat import (
     double_matrix_to_np,
@@ -151,17 +151,6 @@ class OnlineSVR(BaseEstimator, RegressorMixin):
         verbose: int = 0,
     ) -> None:
         super().__init__()
-        if gamma == 0:
-            raise ValueError(
-                "A gamma value of 0.0 is invalid. Use 'None' to"
-                " set gamma to `1/n_features`."
-            )
-
-        if kernel not in kernels:
-            raise ValueError(
-                f"Wrong Kernel '{kernel}'. Use one of " f"{','.join(kernels)}"
-            )
-
         self.C = C
         self.epsilon = epsilon
         self.kernel = kernel
@@ -228,13 +217,14 @@ class OnlineSVR(BaseEstimator, RegressorMixin):
         If X and y are not C-ordered and contiguous arrays of np.float64, X and/or y
         may be copied.
         """
+        self._check_params()
 
         sparse = sp.sparse.isspmatrix(X)
         if sparse:
             raise ValueError("Sparse inputs are not supported.")
 
-        X, y = check_X_y(
-            X, y, dtype=np.float64, order="C", accept_sparse=False, y_numeric=True
+        X, y = validate_data(
+            self, X, y, dtype=np.float64, order="C", accept_sparse=False, y_numeric=True
         )
         y = column_or_1d(y, warn=True).astype(np.float64)
 
@@ -269,12 +259,14 @@ class OnlineSVR(BaseEstimator, RegressorMixin):
         may be copied.
         """
         check_is_fitted(self, ["_libosvr_", "n_features_in_"])
-        X = check_array(
+        X = validate_data(
+            self,
             X,
             dtype=np.float64,
             order="C",
             accept_sparse=False,
             accept_large_sparse=False,
+            reset=False,
         )
         self._check_X_shape(X)
 
@@ -341,6 +333,18 @@ class OnlineSVR(BaseEstimator, RegressorMixin):
         """Constant in decision function."""
         check_is_fitted(self, ["_libosvr_", "n_features_in_"])
         return self._libosvr_.GetBias()
+
+    def _check_params(self):
+        if self.gamma == 0:
+            raise ValueError(
+                "A gamma value of 0.0 is invalid. Use 'None' to"
+                " set gamma to `1/n_features`."
+            )
+
+        if self.kernel not in kernels:
+            raise ValueError(
+                f"Wrong Kernel '{self.kernel}'. Use one of " f"{','.join(kernels)}"
+            )
 
     def _init_lib_online_svr(self, n_features: int) -> None:
         self._libosvr_ = LibOnlineSVR()
