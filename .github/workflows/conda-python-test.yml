@@ -32,11 +32,11 @@ jobs:
     - name: Install Linux build dependencies
       if: matrix.os == 'ubuntu-latest'
       run: |
-        conda install -y swig gcc_linux-64 gxx_linux-64
+        conda install -y --channel=conda-forge swig gcc_linux-64 gxx_linux-64 libxcrypt
     - name: Install MacOS build dependencies
       if: matrix.os == 'macOS-latest'
       run: |
-        conda install -y swig clang_osx-64 clangxx_osx-64
+        conda install -y --channel=conda-forge swig clang_osx-64 clangxx_osx-64 libxcrypt
     - name: Install Windows build dependencies
       if: matrix.os == 'windows-latest'
       run: |
@@ -56,7 +56,7 @@ jobs:
         swig -version
     - name: Build extension and generate source files
       run: |
-        python setup.py build_ext --inplace
+        CPATH=/usr/share/miniconda/envs/test/include/ LD_LIBRARY_PATH=/usr/share/miniconda/envs/test/lib/ python setup.py build_ext --inplace
     - name: Lint with flake8
       run: |
         flake8 pyonlinesvr tests --count --show-source --statistics
