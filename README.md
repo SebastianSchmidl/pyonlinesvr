@@ -5,7 +5,7 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![release info](https://img.shields.io/badge/Release-0.0.3-blue)](https://pypi.org/project/PyOnlineSVR/0.0.3/)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-![python version 3.7|3.8|3.9|3.10](https://img.shields.io/badge/python-3.7%20%7C%203.8%20%7C%203.9%20%7C%203.10-blue)
+![python version 3.8|3.9|3.10](https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10-blue)
 
 Python-Wrapper for Francesco Parrella's OnlineSVR [[PAR2007]](#PAR2007) C++ implementation with [scikit-learn](https://sklearn.org/)-compatible interfaces.
 You can find more information about the OnlineSVR [here](http://onlinesvr.altervista.org/) and the original source code [here](https://github.com/fp2556/onlinesvr/tree/master/c%2B%2B).
@@ -16,11 +16,11 @@ You can find more information about the OnlineSVR [here](http://onlinesvr.alterv
 
 PyOnlineSVR requires the following dependencies:
 
-- python (>=3.7)
-- numpy (>=1.13.3)
-- scipy (>=0.19.1)
-- joblib (>=0.11)
-- scikit-learn (>=0.23.0)
+- python (>=3.8)
+- numpy (>=1.21)
+- scipy (>=1.7)
+- joblib (>=0.15)
+- scikit-learn (>=1.0.2)
 
 ### Binaries
 
@@ -28,7 +28,7 @@ PyOnlineSVR is published to [PyPi](https://pypi.org/project/PyOnlineSVR/) and ca
 
 #### Prerequisites
 
-- python (>=3.7)
+- python (>=3.8)
 - pip (>=19.0 to support [manylinux2010](https://github.com/pypa/manylinux))
 
 #### Steps
@@ -41,7 +41,7 @@ pip install PyOnlineSVR
 
 ### From Source (Linux)
 
-If you are installing PyOnlineSVR from source, you will need Python 3.7 or later and a modern C++ compiler.
+If you are installing PyOnlineSVR from source, you will need Python 3.8 or later and a modern C++ compiler.
 We highly recommend using an [Anaconda](https://www.anaconda.com/products/individual#download-section) environment for building this project.
 
 In the following, we explain the steps to build PyOnlineSVR using **Anaconda** and **git**.

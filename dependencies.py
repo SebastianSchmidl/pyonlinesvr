@@ -23,13 +23,15 @@ import argparse
 
 # dependency name -> (version spec, comma-seperated tags)
 dependent_packages = {
-    "joblib": ("0.11", "install, test"),
-    "numpy": ("1.13.3", "install, test"),
-    "scipy": ("0.19.1", "install, test"),
-    "scikit-learn": ("0.23.0", "install, test"),
+    "joblib": ("0.15", "install, test"),
+    "numpy": ("1.21.0", "install, test"),
+    "scipy": ("1.7.3", "install, test"),
+    "scikit-learn": ("1.0.2", "install, test"),
     "flake8": ("3.9.2", "test"),
     "mypy": ("0.812", "test"),
     "twine": ("3.4.1", "deploy"),
+    "setuptools": ("58.2.0", "deploy"),
+    "swig": ("3.0.6", "deploy"),
     "pytest": ("6.2.4", "test"),
     "pytest-cov": ("2.11.1", "test"),
 }

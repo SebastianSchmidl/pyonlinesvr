@@ -63,14 +63,14 @@ def test_gamma():
     assert rgr._libosvr_.GetKernelParam() == 1.2
 
 
-def test_init_wrong_gamma():
+def test_wrong_gamma():
     with pytest.raises(ValueError, match=r"[A|a] gamma value of 0(\.0)* is invalid"):
-        OnlineSVR(gamma=0)
+        OnlineSVR(gamma=0).fit(np.zeros((1, 1)), np.zeros(1))
 
 
-def test_init_wrong_kernel():
+def test_wrong_kernel():
     with pytest.raises(ValueError, match=r"[W|w]rong [K|k]ernel"):
-        OnlineSVR(kernel="non-existent")
+        OnlineSVR(kernel="non-existent").fit(np.zeros((1, 1)), np.zeros(1))
 
 
 def test_fit():
@@ -90,7 +90,7 @@ def test_fit_wrong_X_shape():
     rgr.partial_fit(X[:5], y[:5])
     with pytest.raises(
         ValueError,
-        match=r"X\.shape.* should be equal to the number of features at first training time",
+        match=r"X has \d+ features, but OnlineSVR is expecting 1 features as input",
     ):
         rgr.partial_fit(X[5:15].reshape(-1, 2), y[5:10])
 

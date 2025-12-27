@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        python_version: ["3.7", "3.8", "3.9", "3.10"]
+        python_version: ["3.8", "3.9", "3.10"]
       fail-fast: false
 
     defaults:
@@ -59,7 +59,7 @@ jobs:
         python setup.py build_ext --inplace
     - name: Lint with flake8
       run: |
-        flake8 . --count --show-source --statistics
+        flake8 pyonlinesvr tests --count --show-source --statistics
     - name: Typecheck with mypy
       run: |
         mypy

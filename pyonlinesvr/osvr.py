@@ -22,7 +22,7 @@ import numpy as np
 import scipy as sp
 from sklearn.base import BaseEstimator, RegressorMixin
 from sklearn.utils import check_X_y
-from sklearn.utils.validation import validate_data, column_or_1d, check_is_fitted
+from sklearn.utils.validation import check_array, column_or_1d, check_is_fitted
 
 from pyonlinesvr.lib.compat import (
     double_matrix_to_np,
@@ -55,7 +55,7 @@ class wrap_output(ContextManager):
             print("[libonlinesvr] end =============================")
 
 
-class OnlineSVR(BaseEstimator, RegressorMixin):
+class OnlineSVR(RegressorMixin, BaseEstimator):
     """Epsilon-Support Vector Regression with online learning capability.
 
     The free parameters in the model are C and epsilon. Support Vector Machine
@@ -150,7 +150,6 @@ class OnlineSVR(BaseEstimator, RegressorMixin):
         save_kernel_matrix: bool = True,
         verbose: int = 0,
     ) -> None:
-        super().__init__()
         self.C = C
         self.epsilon = epsilon
         self.kernel = kernel
@@ -223,8 +222,8 @@ class OnlineSVR(BaseEstimator, RegressorMixin):
         if sparse:
             raise ValueError("Sparse inputs are not supported.")
 
-        X, y = validate_data(
-            self, X, y, dtype=np.float64, order="C", accept_sparse=False, y_numeric=True
+        X, y = check_X_y(
+            X, y, dtype=np.float64, order="C", accept_sparse=False, y_numeric=True
         )
         y = column_or_1d(y, warn=True).astype(np.float64)
 
@@ -259,14 +258,12 @@ class OnlineSVR(BaseEstimator, RegressorMixin):
         may be copied.
         """
         check_is_fitted(self, ["_libosvr_", "n_features_in_"])
-        X = validate_data(
-            self,
+        X = check_array(
             X,
             dtype=np.float64,
             order="C",
             accept_sparse=False,
             accept_large_sparse=False,
-            reset=False,
         )
         self._check_X_shape(X)
 
@@ -370,9 +367,8 @@ class OnlineSVR(BaseEstimator, RegressorMixin):
     def _check_X_shape(self, X: np.ndarray) -> None:
         if X.shape[1] != self.n_features_in_:  # type: ignore
             raise ValueError(
-                f"X.shape[1]={X.shape[1]} should be equal to the "  # type: ignore
-                "number of features at first training time "
-                f"(={self.n_features_in_})"  # type: ignore
+                f"X has {X.shape[1]} features, but OnlineSVR is expecting "
+                f"{self.n_features_in_} features as input"
             )
 
     def _forget_values(self, X: np.ndarray) -> None:
