@@ -56,7 +56,7 @@ jobs:
         swig -version
     - name: Build extension and generate source files
       run: |
-        CPATH=/opt/conda/include/ python setup.py build_ext --inplace
+        CPATH=/usr/share/miniconda/envs/test/include/ python setup.py build_ext --inplace
     - name: Lint with flake8
       run: |
         flake8 pyonlinesvr tests --count --show-source --statistics

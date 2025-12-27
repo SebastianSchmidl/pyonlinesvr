@@ -93,7 +93,7 @@ onlinesvr_module = Extension(
     sources=onlinevsr_sources,
     depends=onlinevsr_depends,
     include_dirs=["pyonlinesvr/lib/include"],
-    swig_opts=["-c++", "-py3"],
+    swig_opts=["-c++"],
 )
 
 
